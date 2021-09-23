@@ -15,6 +15,15 @@ RUN if [ "${INSTALL_MAVEN}" = "true" ]; then su vscode -c "umask 0002 && . /usr/
 ARG NODE_VERSION="none"
 RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
+# Install Gauge
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -SsL https://downloads.gauge.org/stable | sh \
+    && su vscode -c "gauge install java" \
+    && su vscode -c "gauge install html-report" \
+    && su vscode -c "gauge install screenshot" \
+    && su vscode -c "gauge install xml-report" \
+    && su vscode -c "gauge install confluence"
+
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
